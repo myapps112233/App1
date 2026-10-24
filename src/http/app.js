@@ -17,6 +17,17 @@ async function createApp({ config, catalog, store, logger }) {
   const rootDir = path.resolve(__dirname, '..', '..');
   const publicDir = path.join(rootDir, 'public');
   const legalTemplates = await loadLegalTemplates(rootDir);
+  const socketOrigins = new Set();
+  for (const origin of [...config.allowedOrigins, config.publicOrigin].filter(Boolean)) {
+    try {
+      const url = new URL(origin);
+      const protocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
+      socketOrigins.add(`${protocol}//${url.host}`);
+    } catch {
+      /* ignore malformed optional origin */
+    }
+  }
+
   const assetOrigins = new Set();
   if (config.stickerAssetBase) {
     try {
@@ -34,7 +45,7 @@ async function createApp({ config, catalog, store, logger }) {
     scriptSrc: ["'self'"],
     styleSrc: ["'self'"],
     imgSrc: ["'self'", 'data:', ...assetOrigins],
-    connectSrc: ["'self'", ...assetOrigins],
+    connectSrc: ["'self'", ...socketOrigins, ...assetOrigins],
     fontSrc: ["'self'"],
     objectSrc: ["'none'"],
     baseUri: ["'self'"],

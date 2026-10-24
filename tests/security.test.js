@@ -122,6 +122,18 @@ test('websocket handshake rejects foreign origins but accepts its own host', asy
   sameOrigin.disconnect();
 });
 
+test('the CSP allows same-origin sockets and configured socket origins', async (t) => {
+  const harness = await startServer({ ALLOWED_ORIGINS: 'https://play.example' });
+  t.after(() => harness.close());
+
+  const response = await fetch(`${harness.url}/`);
+  const csp = response.headers.get('content-security-policy');
+  assert.match(csp, /connect-src 'self'/);
+  assert.ok(csp.includes('wss://play.example'), 'configured origin should allow its websocket');
+  assert.match(csp, /script-src 'self'/);
+  assert.match(csp, /object-src 'none'/);
+});
+
 test('the development only origin escape hatch works and production ignores it', async (t) => {
   const dev = await startServer({ DEV_ALLOW_ANY_ORIGIN: '1' });
   t.after(() => dev.close());
