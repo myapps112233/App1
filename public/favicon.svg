@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Sticker Showdown">
+  <rect width="32" height="32" fill="#f3ede0"/>
+  <rect x="0.5" y="0.5" width="31" height="31" fill="none" stroke="#20231c"/>
+  <rect x="5" y="5" width="22" height="22" fill="#9e4a31"/>
+  <text x="16" y="22" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#faf6ec">SS</text>
+</svg>

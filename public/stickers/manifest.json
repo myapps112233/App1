@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "note": "Local sticker catalogue. Edit alt text here; the server reads alt overrides from this file at boot.",
+  "stickers": [
+    {
+      "file": "STK-20260825-WA0079.webp",
+      "alt": "Reaction sticker 1"
+    },
+    {
+      "file": "STK-20260905-WA0000.webp",
+      "alt": "Reaction sticker 2"
+    },
+    {
+      "file": "STK-20261010-WA0009.webp",
+      "alt": "Reaction sticker 3"
+    },
+    {
+      "file": "STK-20261013-WA0001.webp",
+      "alt": "Reaction sticker 4"
+    },
+    {
+      "file": "STK-20261013-WA0020.webp",
+      "alt": "Reaction sticker 5"
+    },
+    {
+      "file": "STK-20261017-WA0002.webp",
+      "alt": "Reaction sticker 6"
+    },
+    {
+      "file": "STK-20261017-WA0003.webp",
+      "alt": "Reaction sticker 7"
+    },
+    {
+      "file": "STK-20261017-WA0004.webp",
+      "alt": "Reaction sticker 8"
+    },
+    {
+      "file": "STK-20261017-WA0010.webp",
+      "alt": "Reaction sticker 9"
+    },
+    {
+      "file": "STK-20261017-WA0011.webp",
+      "alt": "Reaction sticker 10"
+    },
+    {
+      "file": "STK-20261019-WA0003.webp",
+      "alt": "Reaction sticker 11"
+    },
+    {
+      "file": "STK-20261024-WA0008.webp",
+      "alt": "Reaction sticker 12"
+    }
+  ]
+}

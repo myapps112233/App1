@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#f3ede0">
+    <meta name="description" content="Sticker Showdown is a real-time, one-versus-one sticker sending battle for two players sharing a room code.">
+    <meta name="color-scheme" content="light">
+    <title>Sticker Showdown</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header class="topbar">
+      <a class="brand" href="#/" aria-label="Sticker Showdown home">
+        <span class="brand-mark" aria-hidden="true">SS</span>
+        <span class="brand-name">Sticker Showdown</span>
+      </a>
+      <div class="topbar-right">
+        <p class="conn" id="conn-status" data-state="idle">
+          <span class="conn-dot" aria-hidden="true"></span>
+          <span id="conn-text">Not connected</span>
+        </p>
+        <a class="quiet-link" href="#/records">Records</a>
+      </div>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <!-- Screen A: Home -->
+      <section class="screen" id="screen-home" aria-labelledby="home-title">
+        <div class="home-grid">
+          <div class="home-intro">
+            <p class="eyebrow">Real-time, two players</p>
+            <h1 id="home-title" class="display" tabindex="-1">Sticker<br>Showdown</h1>
+            <p class="lede">
+              Share a room code, then race your opponent. Every sticker you land
+              before the clock stops is one point. The server keeps the score.
+            </p>
+
+            <dl class="facts">
+              <div>
+                <dt>Round length</dt>
+                <dd>30, 60 or 90 seconds</dd>
+              </div>
+              <div>
+                <dt>Send rate</dt>
+                <dd id="rate-fact">Up to 10 per second</dd>
+              </div>
+              <div>
+                <dt>Accounts</dt>
+                <dd>None needed</dd>
+              </div>
+            </dl>
+
+            <details class="rules">
+              <summary>How a match runs</summary>
+              <ol>
+                <li>Enter a display name and create a room.</li>
+                <li>Send the invitation link to one friend on any device.</li>
+                <li>The host picks a round length. Both players mark ready.</li>
+                <li>The server starts the clock and accepts sticker sends.</li>
+                <li>Most accepted stickers when time runs out wins.</li>
+              </ol>
+              <p class="hint">
+                Tapping the send control repeatedly works. Holding it repeats sends
+                at the same rate the server allows. The score you see always comes
+                from the server.
+              </p>
+            </details>
+          </div>
+
+          <div class="panel home-panel">
+            <form id="home-form" novalidate>
+              <div class="field">
+                <label for="player-name">Display name</label>
+                <input
+                  id="player-name"
+                  name="name"
+                  type="text"
+                  inputmode="text"
+                  autocomplete="nickname"
+                  maxlength="16"
+                  minlength="2"
+                  placeholder="Your name"
+                  aria-describedby="name-hint name-error"
+                  required>
+                <p class="hint" id="name-hint">2 to 16 characters. Letters, numbers, spaces and simple punctuation.</p>
+                <p class="error" id="name-error" role="alert" hidden></p>
+              </div>
+
+              <button class="btn btn-primary btn-block" type="submit" id="create-room">
+                Create room
+              </button>
+
+              <div class="rule-divider"><span>or join an existing room</span></div>
+
+              <div class="field">
+                <label for="room-code">Room code</label>
+                <input
+                  id="room-code"
+                  name="code"
+                  type="text"
+                  inputmode="text"
+                  autocomplete="off"
+                  autocapitalize="characters"
+                  spellcheck="false"
+                  maxlength="6"
+                  placeholder="ABC234"
+                  aria-describedby="code-hint code-error">
+                <p class="hint" id="code-hint">Six characters, for example K4M9PX.</p>
+                <p class="error" id="code-error" role="alert" hidden></p>
+              </div>
+
+              <button class="btn btn-outline btn-block" type="submit" id="join-room" formnovalidate>
+                Join room
+              </button>
+            </form>
+
+            <p class="error form-error" id="home-error" role="alert" hidden></p>
+          </div>
+        </div>
+
+        <section class="record-strip" aria-labelledby="pb-title">
+          <div>
+            <h2 class="strip-title" id="pb-title">Your best on this browser</h2>
+            <p class="strip-value" id="home-best">No record yet</p>
+            <p class="hint" id="home-best-meta">Records stay on this device and are not cloud synced.</p>
+          </div>
+          <a class="quiet-link" href="#/records">View records and information</a>
+        </section>
+      </section>
+
+      <!-- Screen B: Lobby -->
+      <section class="screen" id="screen-lobby" aria-labelledby="lobby-title" hidden>
+        <div class="screen-head">
+          <p class="eyebrow">Lobby</p>
+          <h1 id="lobby-title" class="screen-title" tabindex="-1">Room <span class="room-code" id="lobby-code">------</span></h1>
+          <p class="hint" id="lobby-lead">Waiting for a second player to join.</p>
+        </div>
+
+        <div class="share-block">
+          <label for="invite-link">Invitation link</label>
+          <div class="share-row">
+            <input id="invite-link" type="text" readonly value="" aria-describedby="copy-status">
+            <button class="btn btn-outline" type="button" id="copy-invite">Copy invite link</button>
+          </div>
+          <p class="hint" id="copy-status" role="status"></p>
+        </div>
+
+        <div class="players" id="lobby-players" aria-label="Players in this room"></div>
+
+        <div class="lobby-controls">
+          <fieldset class="duration-field" id="duration-field">
+            <legend>Round length</legend>
+            <div class="duration-options" role="radiogroup" id="duration-options"></div>
+            <p class="hint" id="duration-hint">Only the host can change the round length.</p>
+          </fieldset>
+
+          <div class="lobby-actions">
+            <button class="btn btn-primary" type="button" id="ready-toggle" aria-pressed="false">
+              I am ready
+            </button>
+            <button class="btn btn-outline" type="button" id="start-match" disabled>
+              Start match
+            </button>
+          </div>
+          <p class="hint" id="start-hint">Both players must be ready before the host can start.</p>
+        </div>
+
+        <div class="screen-foot">
+          <button class="btn btn-quiet" type="button" id="lobby-leave">Leave room</button>
+        </div>
+      </section>
+
+      <!-- Screen C: Battle arena -->
+      <section class="screen arena" id="screen-arena" aria-labelledby="arena-title" hidden>
+        <h1 class="sr-only" id="arena-title">Match in progress</h1>
+
+        <div class="scoreboard">
+          <div class="score-card" id="score-you" data-role="you">
+            <p class="score-name" id="arena-you-name">You</p>
+            <p class="score-value" id="arena-you-score">0</p>
+            <p class="score-tag">You</p>
+          </div>
+
+          <div class="timer-block">
+            <p class="timer-label" id="timer-label">Seconds left</p>
+            <p class="timer" id="arena-timer">0:00</p>
+            <div class="timer-bar" aria-hidden="true"><span id="timer-fill"></span></div>
+          </div>
+
+          <div class="score-card" id="score-them" data-role="them">
+            <p class="score-name" id="arena-them-name">Opponent</p>
+            <p class="score-value" id="arena-them-score">0</p>
+            <p class="score-tag">Opponent</p>
+          </div>
+        </div>
+
+        <div class="arena-body">
+          <div class="stage" id="stage">
+            <div class="stage-frame" id="stage-frame">
+              <p class="stage-empty" id="stage-empty">Send the first sticker.</p>
+              <img id="stage-image" alt="" hidden>
+              <p class="stage-who" id="stage-who" hidden></p>
+            </div>
+            <ul class="feed" id="feed" aria-hidden="true"></ul>
+          </div>
+
+          <div class="arena-controls">
+            <div class="tray-head">
+              <h2 class="tray-title">Your tray</h2>
+              <p class="hint" id="tray-hint">Pick one. Keys 1 to 6 also choose.</p>
+            </div>
+            <div class="tray" id="tray" role="group" aria-label="Sticker tray"></div>
+
+            <button class="send-btn" type="button" id="send-sticker" disabled>
+              <span class="send-label">Send sticker</span>
+              <span class="send-meta" id="send-meta">Tap again and again. Hold to repeat.</span>
+            </button>
+
+            <div class="arena-foot">
+              <p class="hint" id="arena-status" role="status">Waiting for the round to start.</p>
+              <button class="btn btn-quiet" type="button" id="arena-leave">Leave match</button>
+            </div>
+          </div>
+        </div>
+
+        <p class="sr-only" id="live-status" role="status" aria-live="polite"></p>
+        <p class="sr-only" id="live-score" role="status" aria-live="polite"></p>
+      </section>
+
+      <!-- Screen D: Results -->
+      <section class="screen" id="screen-results" aria-labelledby="results-title" hidden>
+        <p class="eyebrow" id="results-eyebrow">Round complete</p>
+        <h1 class="screen-title" id="results-title" tabindex="-1">Result</h1>
+        <p class="lede" id="results-verdict"></p>
+
+        <div class="result-scores" id="result-scores"></div>
+        <p class="hint" id="result-margin"></p>
+
+        <div class="best-banner" id="best-banner" hidden>
+          <h2 class="strip-title">New personal best</h2>
+          <p class="strip-value" id="best-banner-value"></p>
+        </div>
+
+        <div class="result-actions">
+          <button class="btn btn-primary" type="button" id="rematch">Rematch</button>
+          <button class="btn btn-outline" type="button" id="result-copy">Copy link for a new match</button>
+          <button class="btn btn-quiet" type="button" id="result-home">Return home</button>
+        </div>
+        <p class="hint" id="rematch-status" role="status"></p>
+        <p class="error" id="result-error" role="alert" hidden></p>
+        <p class="sr-only" id="result-live" role="status" aria-live="polite"></p>
+      </section>
+
+      <!-- Screen E: Records and information -->
+      <section class="screen" id="screen-records" aria-labelledby="records-title" hidden>
+        <p class="eyebrow">This browser only</p>
+        <h1 class="screen-title" id="records-title" tabindex="-1">Records and information</h1>
+
+        <div class="panel records-panel">
+          <h2 class="panel-title">Personal best</h2>
+          <dl class="record-detail" id="record-detail">
+            <div>
+              <dt>Score</dt>
+              <dd id="record-score">No record saved</dd>
+            </div>
+            <div>
+              <dt>Opponent</dt>
+              <dd id="record-opponent">Not available</dd>
+            </div>
+            <div>
+              <dt>Round length</dt>
+              <dd id="record-duration">Not available</dd>
+            </div>
+          </dl>
+          <p class="hint">
+            Records live in this browser's local storage. They are not synced
+            between devices, not tamper proof, and can be lost when browser data is
+            cleared. Clearing them here only affects this browser.
+          </p>
+          <p class="error" id="record-error" role="alert" hidden></p>
+          <button class="btn btn-outline" type="button" id="clear-record">Clear saved record</button>
+        </div>
+
+        <div class="link-index">
+          <h2 class="panel-title">Information</h2>
+          <ul class="link-list">
+            <li><a href="/legal/privacy">Privacy Policy</a></li>
+            <li><a href="/legal/terms">Terms of Service</a></li>
+            <li><a href="/legal/cookies">Cookie Preferences</a></li>
+            <li><a href="/legal/accessibility">Accessibility</a></li>
+            <li><a href="/legal/contact">Contact and privacy requests</a></li>
+          </ul>
+        </div>
+
+        <div class="screen-foot">
+          <a class="btn btn-quiet" href="#/">Return to the game</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p class="footer-line" id="footer-affiliation">
+        Independent project. Not affiliated with, endorsed by, or connected to WhatsApp or Meta.
+      </p>
+      <nav class="footer-links" aria-label="Legal and information">
+        <a href="/legal/privacy">Privacy</a>
+        <a href="/legal/terms">Terms</a>
+        <a href="/legal/cookies">Cookies</a>
+        <a href="/legal/accessibility">Accessibility</a>
+        <a href="/legal/contact">Contact</a>
+      </nav>
+      <p class="footer-line">No payments, subscriptions or purchases. Age 13 and over, or the minimum digital age in your country.</p>
+    </footer>
+
+    <dialog class="dialog" id="confirm-dialog" aria-labelledby="confirm-title">
+      <form method="dialog">
+        <h2 class="dialog-title" id="confirm-title">Confirm</h2>
+        <p id="confirm-body">Are you sure?</p>
+        <div class="dialog-actions">
+          <button class="btn btn-primary" value="confirm" id="confirm-accept">Confirm</button>
+          <button class="btn btn-quiet" value="cancel">Cancel</button>
+        </div>
+      </form>
+    </dialog>
+
+    <noscript>
+      <p class="noscript">Sticker Showdown needs JavaScript for the live match. Everything else is plain HTML.</p>
+    </noscript>
+
+    <script src="/socket.io/socket.io.js" defer></script>
+    <script type="module" src="/js/app.js"></script>
+  </body>
+</html>

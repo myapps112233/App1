@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Accessibility | Sticker Showdown</title>
+    <meta name="description" content="Accessibility features and known limitations of Sticker Showdown.">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">SS</span>
+        <span class="brand-name">Sticker Showdown</span>
+      </a>
+      <a class="quiet-link" href="/">Back to the game</a>
+    </header>
+
+    <main class="shell legal-doc">
+      <h1>Accessibility</h1>
+      <p class="effective">Last reviewed {{EFFECTIVE_DATE}}</p>
+
+      <p>
+        Sticker Showdown is a small, fast game. This page explains what has been done to
+        make it usable with keyboards, screen readers, and different screen sizes, and
+        where the limits are. It is an honest description of the current build rather
+        than a claim of full conformance.
+      </p>
+
+      <h2>1. Design decisions</h2>
+      <ul>
+        <li>Semantic HTML landmarks, headings in order, and a skip link to the main content.</li>
+        <li>Every form field has a visible label. Errors are announced through alert regions.</li>
+        <li>Keyboard focus is always visible, with a high contrast focus ring.</li>
+        <li>Controls are rectangular with large touch targets; the send control is at least 5.5rem tall on phones.</li>
+        <li>Text and background colours were chosen for readable contrast on the parchment background.</li>
+        <li>Motion is limited. Reduced motion preferences are respected by the stylesheet.</li>
+        <li>The interface does not play audio, vibrate, or autoplay media.</li>
+        <li>There are no colour-only status indicators. Every status also has text.</li>
+      </ul>
+
+      <h2>2. Keyboard operation</h2>
+      <ul>
+        <li>Tab and Shift+Tab move between links, fields, and buttons.</li>
+        <li>Enter or Space activates buttons. The name and room code fields submit with Enter.</li>
+        <li>Keys 1 to 6 select a sticker from the tray during a match.</li>
+        <li>Holding the send button with a pointer repeats sends at the allowed rate. Pressing Enter or Space sends one sticker per press.</li>
+        <li>Leaving a live match asks for confirmation in a native dialog that traps focus.</li>
+      </ul>
+
+      <h2>3. Screen readers and score updates</h2>
+      <p>
+        Rapidly changing scores are not announced on every point, because that would
+        make the game unusable with speech. The score itself is available as text on
+        the screen and updates in the accessible tree. A polite live region announces
+        the score at most once every six seconds during a round, and the final result is
+        announced once when the round ends.
+      </p>
+      <p>
+        The connection status and room notices use a polite live region. The sticker
+        feed is deliberately hidden from assistive technology, because it changes many
+        times per second.
+      </p>
+
+      <h2>4. Known limitations</h2>
+      <ul>
+        <li>The core game is timing based and simultaneous. Screen reader users may need a longer round or a second person to play competitively.</li>
+        <li>Sticker artwork is user supplied. Alt text falls back to a general description unless the deployment provides a manifest with descriptive text.</li>
+        <li>Some mobile browsers resize the viewport when scrollbars appear. The layout uses modern viewport units where supported.</li>
+        <li>The game needs JavaScript. Without it, the legal pages remain readable but a match cannot run.</li>
+        <li>Automated testing covers markup and keyboard structure, but no formal audit by a third party has been completed.</li>
+      </ul>
+
+      <h2>5. Feedback</h2>
+      <p>
+        If something blocks you from playing, contact {{CONTACT}} and describe the
+        device, browser, and assistive technology you used. Reports are used to fix
+        issues in later versions.
+      </p>
+
+      <nav class="legal-nav" aria-label="Legal pages">
+        <a href="/legal/privacy">Privacy</a>
+        <a href="/legal/terms">Terms</a>
+        <a href="/legal/cookies">Cookies</a>
+        <a href="/legal/contact">Contact</a>
+        <a href="/">Play</a>
+      </nav>
+    </main>
+
+    <footer class="site-footer">
+      <p class="footer-line">Independent project. Not affiliated with WhatsApp or Meta. No payments or subscriptions.</p>
+    </footer>
+  </body>
+</html>
