@@ -320,7 +320,7 @@ npm test
 The suite uses the built-in Node test runner against the real Express and
 Socket.IO server, with an injected clock so round timing is deterministic.
 
-Coverage highlights (88 tests):
+Coverage highlights (89 tests):
 
 - Room creation, joining, invalid, expired, full and started rooms, duplicate
   names, code collisions, host-only actions, cross-room isolation, member checks,
@@ -573,7 +573,7 @@ you choose. Never force push and never overwrite unrelated repository files.
 - Two source stickers were animated and are served as static first frames.
 - No automated visual regression or real-device testing was run in this
   environment, because no browser binaries were available. Server behaviour and
-  the browser flow are covered by 88 automated tests, including a two-client
+  the browser flow are covered by 89 automated tests, including a two-client
   match and a jsdom run of the real interface.
 - The free Render plan sleeps, so the first visitor waits for a cold start.
 

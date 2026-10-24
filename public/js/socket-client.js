@@ -55,7 +55,8 @@ export function createSocketClient(handlers = {}) {
             finish({
               ok: false,
               code: 'TIMEOUT',
-              message: 'The server did not answer. Check your connection.',
+              message:
+                'The server did not answer. On a free hosted instance it may still be waking up. Try again in a few seconds.',
             });
             return;
           }

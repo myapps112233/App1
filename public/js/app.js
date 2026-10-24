@@ -528,6 +528,7 @@ async function resumeSession() {
     state.clock.noteServerNow(res.state.serverNow);
     announce('Reconnected to your match.');
     applyPhase({ fromResume: true });
+    if (['COUNTDOWN', 'PLAYING'].includes(res.state.phase)) calibrateClock();
   } finally {
     state.resumeInFlight = false;
   }
