@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Cookie Preferences | Sticker Showdown</title>
+    <meta name="description" content="Sticker Showdown sets no cookies. This page lists the browser storage it uses and how to remove it.">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">SS</span>
+        <span class="brand-name">Sticker Showdown</span>
+      </a>
+      <a class="quiet-link" href="/">Back to the game</a>
+    </header>
+
+    <main class="shell legal-doc">
+      <h1>Cookie Preferences</h1>
+      <p class="effective">Effective {{EFFECTIVE_DATE}}</p>
+
+      <p>
+        This version of Sticker Showdown sets no cookies. It does not use analytics,
+        advertising, or third-party tracking scripts. Because only essential
+        functionality and browser storage are used, the game does not show a consent
+        banner: there is nothing optional to consent to.
+      </p>
+
+      <h2>1. Browser storage used by the game</h2>
+      <p>These entries are stored by your browser and are never sent to the server as a whole.</p>
+      <ul>
+        <li>
+          <strong>sticker-showdown:record:v1</strong> in local storage. Holds your personal
+          best score, the display name of the opponent in that match, and the round
+          length. It stays until you clear it or clear browser data.
+        </li>
+        <li>
+          <strong>sticker-showdown:name:v1</strong> in local storage. Holds the display name
+          you typed, so the field is filled the next time you open the game on this
+          device.
+        </li>
+        <li>
+          <strong>sticker-showdown:session:v1</strong> in session storage. Holds the room
+          code and a random session token for the current browser tab so a refresh can
+          reconnect you to the same player slot. It is removed when the tab closes or
+          when you leave the room.
+        </li>
+      </ul>
+      <p>
+        Your live score is held on the server while a match runs. It is not written to
+        your browser during the round.
+      </p>
+      <p>
+        Contact details for the operator of this deployment: {{CONTACT}}. See the
+        <a href="/legal/privacy">Privacy Policy</a> for the full description of
+        processing and retention.
+      </p>
+
+      <h2>2. Removing the stored data</h2>
+      <div class="legal-actions">
+        <p>
+          The button below removes the local record and the saved display name from this
+          browser. It cannot be undone.
+        </p>
+        <button class="btn btn-outline" type="button" id="legal-clear">Remove local game data</button>
+        <p class="legal-status" id="legal-clear-status" role="status"></p>
+      </div>
+      <p>
+        You can also clear this data with your browser settings, usually under privacy
+        or site data. Blocking local storage is allowed. The game still runs, but it
+        cannot keep a personal best or remember your name.
+      </p>
+
+      <h2>3. Server-side and hosting data</h2>
+      <p>
+        The server holds temporary room state in memory and writes operational logs.
+        The hosting provider may set strictly necessary infrastructure cookies at the
+        platform level. These are controlled by the provider, not by the game, and are
+        not used for advertising. See the <a href="/legal/privacy">Privacy Policy</a>
+        for details.
+      </p>
+
+      <h2>4. If this changes</h2>
+      <p>
+        If optional cookies, analytics, or advertising are added later, this page will
+        be updated and a working consent mechanism will be required before those
+        features are activated in regions that require consent. A banner will not be
+        displayed without functioning controls.
+      </p>
+
+      <nav class="legal-nav" aria-label="Legal pages">
+        <a href="/legal/privacy">Privacy</a>
+        <a href="/legal/terms">Terms</a>
+        <a href="/legal/accessibility">Accessibility</a>
+        <a href="/legal/contact">Contact</a>
+        <a href="/">Play</a>
+      </nav>
+    </main>
+
+    <footer class="site-footer">
+      <p class="footer-line">Independent project. Not affiliated with WhatsApp or Meta. No payments or subscriptions.</p>
+    </footer>
+
+    <script src="/js/legal.js" defer></script>
+  </body>
+</html>

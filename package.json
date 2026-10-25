@@ -1,0 +1,29 @@
+{
+  "name": "sticker-showdown",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sticker Showdown: a real-time, one-versus-one browser sticker battle game built with Express, Socket.IO and vanilla JavaScript.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test --test-concurrency=1 \"tests/*.test.js\" \"tests/*.test.mjs\"",
+    "lint": "node scripts/lint.mjs",
+    "manifest": "node scripts/build-sticker-manifest.mjs",
+    "audit": "npm audit --omit=dev"
+  },
+  "dependencies": {
+    "compression": "^1.8.2",
+    "express": "^4.22.3",
+    "helmet": "^8.3.0",
+    "socket.io": "^4.8.4"
+  },
+  "devDependencies": {
+    "jsdom": "^25.0.1",
+    "socket.io-client": "^4.8.4"
+  }
+}

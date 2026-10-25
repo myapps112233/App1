@@ -1,0 +1,36 @@
+# Render Blueprint for Sticker Showdown.
+# One instance only: rooms are held in memory and are not shared between
+# instances. Scaling out requires shared state first.
+services:
+  - type: web
+    name: sticker-showdown
+    runtime: node
+    plan: free
+    region: oregon
+    branch: main
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /healthz
+    numInstances: 1
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: TRUST_PROXY
+        value: "1"
+      - key: LOG_LEVEL
+        value: info
+      # Set this to the Render URL (and any custom domain) after the first deploy.
+      - key: ALLOWED_ORIGINS
+        sync: false
+      # Publish a real contact address before opening the game to the public.
+      - key: PRIVACY_CONTACT_EMAIL
+        sync: false
+      - key: OPERATOR_NAME
+        sync: false
+      - key: CONTACT_URL
+        value: https://github.com/myapps112233/App1/issues
+      - key: LEGAL_EFFECTIVE_DATE
+        value: 24 October 2026
